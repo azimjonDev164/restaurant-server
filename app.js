@@ -2,18 +2,24 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const connectDB = require("./config/dbConnect");
 
 dotenv.config({ quiet: true });
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+app.use(express.json());
+app.use(cors());
 connectDB();
 
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", require("./routes/root"));
 app.use("/user", require("./routes/user"));
+app.use("/order", require("./routes/order"));
+app.use("/orderItem", require("./routes/orderItem"));
+app.use("/dish", require("./routes/dish"));
 
 app.all(/\/*/, (req, res) => {
   res.status(404);

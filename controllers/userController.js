@@ -42,6 +42,15 @@ const findByEmail = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 // Find by ID
 const findById = async (req, res) => {
   const { id } = req.params;
@@ -106,4 +115,5 @@ module.exports = {
   findById,
   updateUser,
   deleteUser,
+  getAllUsers,
 };

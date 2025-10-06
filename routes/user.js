@@ -5,10 +5,12 @@ const {
   findById,
   updateUser,
   deleteUser,
+  getAllUsers,
 } = require("../controllers/userController");
 const router = express.Router();
 
 router.post("/", createUser);
+router.get("/", getAllUsers);
 router.get("/email", findByEmail);
 router.get("/:id", findById);
 router.put("/:id", updateUser);
