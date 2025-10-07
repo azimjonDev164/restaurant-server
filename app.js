@@ -20,6 +20,7 @@ app.use("/user", require("./routes/user"));
 app.use("/order", require("./routes/order"));
 app.use("/orderItem", require("./routes/orderItem"));
 app.use("/dish", require("./routes/dish"));
+app.use("/table", require("./routes/table"));
 
 app.all(/\/*/, (req, res) => {
   res.status(404);
@@ -34,6 +35,15 @@ app.all(/\/*/, (req, res) => {
 
 mongoose.connection.once("open", async () => {
   console.log("✅ MongoDB connected");
+  // console.log("random number:", Math.random());
+  // let array = [];
+
+  // for (let i = 0; i < 5; i++) {
+  //   const randomNum = Math.random();
+  //   array.push(randomNum);
+  // }
+
+  // console.log(array);
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
