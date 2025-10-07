@@ -1,9 +1,5 @@
 const Table = require("../models/Table");
 
-// Table.createTable(number)
-// Table.getAllTables()
-// Table.getAvailableTables()
-
 const createTable = async (req, res) => {
   const { number } = req.body;
 

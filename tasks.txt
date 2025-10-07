@@ -1,0 +1,34 @@
+User.createUser(data)
+User.findByEmail(email)
+User.findById(id)
+User.updateUser(id, updateData)
+User.deleteUser(id)
+
+Order.createOrder(userId, items)
+Order.getOrdersByUser(userId)
+Order.updateStatus(orderId, status)
+Order.cancelOrder(orderId)
+
+Dish.createDish(data)
+Dish.getAllDishes()
+Dish.getDishesByCategory(categoryId)
+Dish.updateDish(id, updateData)
+Dish.deleteDish(id)
+
+Category.createCategory(data)
+Category.getAllCategories()
+Category.getCategoryWithDishes(categoryId)
+
+Menu.createMenu(data)
+Menu.getAllMenus()
+Menu.getMenuWithCategories(menuId)
+
+Table.createTable(number)
+Table.getAllTables()
+Table.getAvailableTables()
+
+Reservation.createReservation(userId, tableId, startTime, endTime)
+Reservation.getUserReservations(userId)
+Reservation.updateStatus(reservationId, status)
+Reservation.cancelReservation(reservationId)
+
