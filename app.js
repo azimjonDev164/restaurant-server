@@ -23,6 +23,7 @@ app.use("/dish", require("./routes/dish"));
 app.use("/table", require("./routes/table"));
 app.use("/reservation", require("./routes/reservation"));
 app.use("/menu", require("./routes/menu"));
+app.use("/category", require("./routes/category"));
 
 app.all(/\/*/, (req, res) => {
   res.status(404);

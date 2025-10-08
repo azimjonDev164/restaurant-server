@@ -30,12 +30,27 @@ const createOrder = async (req, res) => {
   }
 };
 
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find().populate("items");
+    console.log(orders);
+    if (!orders || orders.length === 0) {
+      return res.status(404).json({ message: "No orders found!" });
+    }
+
+    return res.status(200).json(orders);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 const getOrdersByUser = async (req, res) => {
   const { userId } = req.params;
 
   try {
     const userOrders = await Order.find({ user: userId }).populate("items");
-
+    console.log(userOrders);
     if (!userOrders || userOrders.length === 0) {
       return res.status(404).json({ message: "No orders found for this user" });
     }
@@ -92,6 +107,7 @@ const cancelOrder = async (req, res) => {
 
 module.exports = {
   createOrder,
+  getAllOrders,
   getOrdersByUser,
   updateStatus,
   cancelOrder,

@@ -36,7 +36,22 @@ const createReservation = async (req, res) => {
   }
 };
 
+const getAllReservations = async (req, res) => {
+  try {
+    const reservations = await Reservation.find()
+      .populate("table")
+      .populate("user");
 
+    if (reservations.length === 0) {
+      return res.status(200).json({ message: "No reservations." });
+    }
+
+    return res.status(200).json(reservations);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 const getUserReservations = async (req, res) => {
   const { userId } = req.params;
 
@@ -101,7 +116,9 @@ const cancelReservation = async (req, res) => {
 
 module.exports = {
   createReservation,
+  getAllReservations,
   getUserReservations,
   updateStatus,
   cancelReservation,
+
 };

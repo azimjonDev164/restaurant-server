@@ -4,6 +4,7 @@ const createDish = async (req, res) => {
   const { name, price, categoryId } = req.body;
 
   try {
+    console.log(name, price, categoryId);
     if (!name || !price || !categoryId) {
       return res
         .status(400)
