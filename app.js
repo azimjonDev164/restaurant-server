@@ -14,6 +14,7 @@ app.use(cors());
 connectDB();
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static("uploads"));
 
 app.use("/", require("./routes/root"));
 app.use("/user", require("./routes/user"));

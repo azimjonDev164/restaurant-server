@@ -8,6 +8,7 @@ const dishSchema = new mongoose.Schema({
     ref: "Category",
     required: true,
   },
+  image: {type:String, default:""}
 });
 
 const Dish = mongoose.model("Dish", dishSchema);
