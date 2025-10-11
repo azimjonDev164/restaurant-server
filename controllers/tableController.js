@@ -73,9 +73,25 @@ const getAvailableTables = async (req, res) => {
   }
 };
 
+const deleteTable = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const table = await Table.findById(id);
+    if (!table) return res.status(404).json({ message: "Table not found" });
+
+    await Table.findByIdAndDelete(id);
+    return res.status(200).json({ message: "✅ Table deleted successfully!" });
+  } catch (error) {
+    console.error("Error deleting table:", error.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   createTable,
   getAllTables,
   getAvailableTables,
   updateTableStatus,
+  deleteTable,
 };
