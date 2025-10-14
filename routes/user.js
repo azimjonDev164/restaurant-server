@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post("/", createUser);
 router.get("/", getAllUsers);
-router.get("/email", findByEmail);
+router.post("/email", findByEmail);
 router.get("/:id", findById);
 router.put("/:id", updateUser);
 router.delete("/:id", deleteUser);

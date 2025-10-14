@@ -7,6 +7,7 @@ const Reservation = require("../models/Reservation");
 
 const createReservation = async (req, res) => {
   const { userId, tableId, startTime, endTime } = req.body;
+  console.log(req.body);
 
   try {
     const existing = await Reservation.findOne({
@@ -52,6 +53,24 @@ const getAllReservations = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+const getAllReservationsByTableId = async (req, res) => {
+  const { tableId } = req.params;
+
+  try {
+    const reservations = await Reservation.find({ table: tableId })
+      .populate("table", "name number")
+      .populate("user", "name email")
+      .sort({ startTime: 1 });
+
+    // Always return an array — even if empty
+    return res.status(200).json(reservations);
+  } catch (error) {
+    console.error("❌ Error fetching reservations:", error.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 const getUserReservations = async (req, res) => {
   const { userId } = req.params;
 
@@ -120,5 +139,5 @@ module.exports = {
   getUserReservations,
   updateStatus,
   cancelReservation,
-
+  getAllReservationsByTableId,
 };

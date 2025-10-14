@@ -32,3 +32,13 @@ Reservation.getUserReservations(userId)
 Reservation.updateStatus(reservationId, status)
 Reservation.cancelReservation(reservationId)
 
+=== Typesense Cloud: rze2domv97ybs6l1p ===
+
+Admin API Key:
+NO8TzwSReXqhJyJSa6EnLy184PG5TkQO
+
+Search Only API Key:
+CStCJ35b3Tbz9FV4gGD4Gn1LUY4dejU5
+
+Nodes:
+rze2domv97ybs6l1p-1.a1.typesense.net [https:443]

@@ -2,13 +2,14 @@ const Order = require("../models/Order");
 const OrderItem = require("../models/OrderItem");
 
 const createOrder = async (req, res) => {
-  const { userId, items } = req.body; // items = [{ dishId, quantity }, ...]
+  const { userId, items, reservationId } = req.body;
 
   try {
-    // Create the order first
-    const order = await Order.create({ user: userId });
+    const order = await Order.create({
+      user: userId,
+      reservation: reservationId || null,
+    });
 
-    // Create order items and link them to the order
     const orderItems = await Promise.all(
       items.map((item) =>
         OrderItem.create({
@@ -19,7 +20,6 @@ const createOrder = async (req, res) => {
       )
     );
 
-    // Add order items to the order document
     order.items = orderItems.map((item) => item._id);
     await order.save();
 
@@ -32,7 +32,17 @@ const createOrder = async (req, res) => {
 
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("items");
+    const orders = await Order.find()
+      .populate("user")
+      .populate({
+        path: "items",
+        populate: { path: "dish" },
+      })
+      .populate({
+        path: "reservation",
+        populate: { path: "table" },
+      });
+
     console.log(orders);
     if (!orders || orders.length === 0) {
       return res.status(404).json({ message: "No orders found!" });
@@ -49,7 +59,15 @@ const getOrdersByUser = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const userOrders = await Order.find({ user: userId }).populate("items");
+    const userOrders = await Order.find({ user: userId })
+      .populate({
+        path: "items",
+        populate: { path: "dish" },
+      })
+      .populate({
+        path: "reservation",
+        populate: { path: "table" },
+      });
     console.log(userOrders);
     if (!userOrders || userOrders.length === 0) {
       return res.status(404).json({ message: "No orders found for this user" });

@@ -8,6 +8,11 @@ const orderSchema = new mongoose.Schema(
       enum: ["PENDING", "PREPARING", "SERVED", "CANCELLED"],
       default: "PENDING",
     },
+     reservation: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Reservation",
+      required: false, // optional in case orders can be made without reservation
+    },
     items: [{ type: mongoose.Schema.Types.ObjectId, ref: "OrderItem" }],
   },
   { timestamps: { createdAt: true, updatedAt: false } }

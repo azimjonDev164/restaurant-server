@@ -25,6 +25,7 @@ app.use("/table", require("./routes/table"));
 app.use("/reservation", require("./routes/reservation"));
 app.use("/menu", require("./routes/menu"));
 app.use("/category", require("./routes/category"));
+app.use("/search", require("./routes/search"));
 
 app.all(/\/*/, (req, res) => {
   res.status(404);

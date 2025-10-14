@@ -1,10 +1,10 @@
 const Table = require("../models/Table");
 
 const createTable = async (req, res) => {
-  const { number } = req.body;
+  const { number, seat } = req.body;
 
   try {
-    const existingTable = await Table.findOne({ number });
+    const existingTable = await Table.findOne({ number, seat });
 
     if (existingTable) {
       return res.status(409).json({ message: "Table already exists!" });
@@ -12,6 +12,7 @@ const createTable = async (req, res) => {
 
     const newTable = await Table.create({
       number,
+      seat,
     });
 
     return res.status(200).json(newTable);
