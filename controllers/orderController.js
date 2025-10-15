@@ -60,6 +60,7 @@ const getOrdersByUser = async (req, res) => {
 
   try {
     const userOrders = await Order.find({ user: userId })
+      .populate("user")
       .populate({
         path: "items",
         populate: { path: "dish" },
@@ -68,7 +69,6 @@ const getOrdersByUser = async (req, res) => {
         path: "reservation",
         populate: { path: "table" },
       });
-    console.log(userOrders);
     if (!userOrders || userOrders.length === 0) {
       return res.status(404).json({ message: "No orders found for this user" });
     }
@@ -123,10 +123,28 @@ const cancelOrder = async (req, res) => {
   }
 };
 
+// ✅ Delete an order item
+const deleteOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedItem = await Order.findByIdAndDelete(id);
+
+    if (!deletedItem) {
+      return res.status(404).json({ message: "Order item not found" });
+    }
+
+    res.status(200).json({ message: "🗑️ Order item deleted successfully" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   createOrder,
   getAllOrders,
   getOrdersByUser,
   updateStatus,
   cancelOrder,
+  deleteOrder,
 };

@@ -37,6 +37,20 @@ const getAllTables = async (req, res) => {
   }
 };
 
+const getTable = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const table = await Table.findById(id);
+    if (!table) return res.status(404).json({ message: "Table not found" });
+
+    return res.status(200).json(table);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 const updateTableStatus = async (req, res) => {
   const { id } = req.params;
   const { isAvailable } = req.body;
@@ -95,4 +109,5 @@ module.exports = {
   getAvailableTables,
   updateTableStatus,
   deleteTable,
+  getTable,
 };
