@@ -6,7 +6,7 @@ const createDish = async (req, res) => {
   try {
     const { name, price, categoryId } = req.body;
     const image = req.file ? `/uploads/${req.file.filename}` : null;
-    console.log(name, price, categoryId);
+
     if (!name || !price || !categoryId) {
       return res
         .status(400)
@@ -77,7 +77,7 @@ const updateDish = async (req, res) => {
   try {
     const dish = await Dish.findById(id);
     if (!dish) return res.status(404).json({ message: "Dish not found" });
-
+   
     // Replace image if new one uploaded
     if (req.file) {
       if (dish.image) {

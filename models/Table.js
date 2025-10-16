@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const tableSchema = new mongoose.Schema({
   number: { type: Number, required: true, unique: true },
   seat: { type: Number, required: true },
+  image: { type: String, default: "" },
   isAvailable: { type: Boolean, default: true }, // ✅ true = free, false = taken
 });
 

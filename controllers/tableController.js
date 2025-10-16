@@ -1,9 +1,12 @@
 const Table = require("../models/Table");
+const fs = require("fs");
+const path = require("path");
 
 const createTable = async (req, res) => {
   const { number, seat } = req.body;
 
   try {
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
     const existingTable = await Table.findOne({ number, seat });
 
     if (existingTable) {
@@ -13,6 +16,7 @@ const createTable = async (req, res) => {
     const newTable = await Table.create({
       number,
       seat,
+      image,
     });
 
     return res.status(200).json(newTable);
@@ -56,17 +60,23 @@ const updateTableStatus = async (req, res) => {
   const { isAvailable } = req.body;
 
   try {
-    const updatedTable = await Table.findByIdAndUpdate(
-      id,
-      { isAvailable },
-      { new: true }
-    );
-
-    if (!updatedTable) {
+    const updated = await Table.findById(id);
+    if (!updated) {
       return res.status(404).json({ message: "Table not found" });
     }
 
-    return res.status(200).json(updatedTable);
+    if (req.file) {
+      if (updated.image) {
+        const oldImagePath = path.join(__dirname, "..", updated.image);
+        if (fs.existsSync(oldImagePath)) fs.unlinkSync(oldImagePath);
+      }
+      updated.image = `/uploads/${req.file.filename}`;
+    }
+
+    updated.isAvailable = isAvailable;
+    await updated.save();
+
+    return res.status(200).json(updated);
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ message: "Server error" });
